@@ -1,0 +1,17 @@
+.Button {
+  outline: none;
+  background-color: rgba(40, 184, 228, 0.945);
+  border: none;
+  padding: 4px 12px;
+  color: white;
+  border-radius: 4px;
+  margin: auto;
+}
+
+.View {
+  background-color: rgba(40, 59, 228, 0.945);
+}
+
+#Change {
+  background-color: rgba(40, 59, 228, 0.945);
+}

@@ -1,0 +1,32 @@
+.Head {
+  border: 1px solid rgb(85, 81, 81, 0.3);
+  text-transform: uppercase;
+  font-weight: bold;
+  font-size: 16px;
+  margin: 0, auto;
+  text-align: center;
+  background-color: rgb(190, 186, 186, 0.3);
+  padding: 5px;
+}
+
+.Head span {
+  padding: 20px;
+  margin: 0 10%;
+}
+
+#Table {
+  border: 1px solid rgb(85, 81, 81, 0.4);
+  text-align: center;
+  width: 100%;
+  margin: 0;
+}
+
+#Table tr {
+  border: 1px solid rgb(85, 81, 81, 0.4);
+}
+
+/* .Button {
+  display: block;
+  background-color: rgb(71, 161, 177);
+  margin: 0 auto;
+} */
