@@ -14,18 +14,48 @@ class ApiData extends Component {
 
   componentDidMount() {
     this.props.onFetchData();
-    this.props.onViewData()
+    this.props.onViewData();
     // this.props.history.push("/");
   }
 
-  
   viewButtonHandler = () => {
     // this.props.onViewData();
     this.props.history.push("/saved");
   };
 
-  pageHandler = (num) => {
-    this.setState({ currentPage: num });
+  nextPageHandler = () => {
+    let totalPage = 0;
+    if (this.state.filterData !== null) {
+      totalPage = Math.ceil(
+        this.state.filterData.length / this.state.postsPerPage
+      );
+    } else {
+      totalPage = Math.ceil(
+        this.props.companyList.length / this.state.postsPerPage
+      );
+    }
+
+    this.setState((prevState) => {
+      if (prevState.currentPage === totalPage) {
+        return {
+          currentPage: 1,
+        };
+      } else {
+        return {
+          currentPage: prevState.currentPage + 1,
+        };
+      }
+    });
+  };
+
+  prevPageHandler = () => {
+    this.setState((prevState) => {
+      if (prevState.currentPage !== 1) {
+        return {
+          currentPage: prevState.currentPage - 1,
+        };
+      }
+    });
   };
 
   eventHandler = (event) => {
@@ -44,7 +74,7 @@ class ApiData extends Component {
   };
 
   render() {
-    let totalPages = 0;
+    let totalPost = 0;
     const indexOfLastPost = this.state.currentPage * this.state.postsPerPage;
     const indexOfFirstPost = indexOfLastPost - this.state.postsPerPage;
     let currentPosts = null;
@@ -53,17 +83,13 @@ class ApiData extends Component {
         indexOfFirstPost,
         indexOfLastPost
       );
-      totalPages = Math.ceil(
-        this.state.filterData.length / this.state.postsPerPage
-      );
+      totalPost = this.state.filterData.length;
     } else {
       currentPosts = this.props.companyList.slice(
         indexOfFirstPost,
         indexOfLastPost
       );
-      totalPages = Math.ceil(
-        this.props.companyList.length / this.state.postsPerPage
-      );
+      totalPost = this.props.companyList.length;
     }
 
     return (
@@ -74,7 +100,6 @@ class ApiData extends Component {
             <input
               type="text"
               placeholder="Search..."
-            
               onChange={(event) => this.eventHandler(event)}
             ></input>
             <button className="ui icon button">
@@ -102,7 +127,13 @@ class ApiData extends Component {
             />
           </tbody>
         </table>
-        <PaginationList total={totalPages} clicked={this.pageHandler} />
+        <PaginationList
+          total={totalPost}
+          currentPage={this.state.currentPage}
+          postPerPage={this.state.postsPerPage}
+          next={this.nextPageHandler}
+          prev={this.prevPageHandler}
+        />
       </div>
     );
   }
@@ -112,7 +143,7 @@ const mapStateToProps = (state) => {
   return {
     companyList: state.companyList,
     saved: state.savedSymbol,
-   savedCompany : state.saveList
+    savedCompany: state.saveList,
   };
 };
 
@@ -121,7 +152,6 @@ const mapDispatchToProps = (dispatch) => {
     onFetchData: () => dispatch(actions.fetchData()),
     onViewData: () => dispatch(actions.viewData()),
     onSaveData: (data) => dispatch(actions.saveData(data)),
-  
   };
 };
 
